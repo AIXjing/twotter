@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import TwootItem from "./TwootItem";
+import { reactive, computed } from 'vue';
+import TwootItem from "../components/TwootItem";
+import CreateTwootPanel from "@/components/CreateTwootPanel";
 
 export default {
   name: 'UserProfile',
