@@ -8,26 +8,9 @@
       <div class="user-profile__follower-count">
         <strong>Followers: </strong> {{ followers }}
       </div>
-      <form
-          class="user-profile__create-twoot"
-          @submit.prevent="createNewTwoot"
-          :class="{'--exceeded': newTwootCharacterCount > 180 }"
-      >
-        <label for="newTwoot"><strong>New Twoot</strong> ({{ newTwootCharacterCount }}/180) </label>
-        <textarea id="newTwoot" v-model="newTwootContent" rows="4"/>
-
-        <div class="user-profile__create-twoot-type">
-          <label for="newTwootType"><strong>Type:</strong></label>
-          <select id="newTwootType" v-model="selectedTwootType">
-            <option v-for="(option,index) in twootTypes" :key="index" :value="option.value">
-              {{ option.name }}
-            </option>
-          </select>
-        </div>
-
-        <button>Twoot!</button>
-      </form>
+      <CreateTwootPanel @add-twoot="addTwoot"/>
     </div>
+
     <div class="user-profile__twoots-wrapper">
       <TwootItem
           v-for="twoot in user.twoots"
@@ -41,19 +24,15 @@
 </template>
 
 <script>
-import TwootItem from "./TwootItem";
+
+import TwootItem from "../components/TwootItem";
+import CreateTwootPanel from "@/components/CreateTwootPanel";
 
 export default {
   name: 'UserProfile',
-  components: {TwootItem},
+  components: {TwootItem, CreateTwootPanel},
   data() {
     return {
-      newTwootContent: '',
-      selectedTwootType: 'instant',
-      twootTypes: [
-        {value: 'draft', name: 'Draft'},
-        {value: 'instant', name: 'Instant Twoot'}
-      ],
       followers: 0,
       user: {
         id: 1,
@@ -69,39 +48,13 @@ export default {
       }
     }
   },
-  watch: {
-    followers(newFollowerCount, oldFollowerCount) {
-      if (oldFollowerCount < newFollowerCount) {
-        console.log(`${this.user.username} has gained a follower!`)
-      }
-    }
-  },
-  computed: {
-    newTwootCharacterCount() {
-        return this.newTwootContent.length;
-      }
-    },
   methods: {
-    followUser() {
-      this.followers++;
-    },
-    // eslint-disable-next-line no-unused-vars
-    toggleFavourite(id) {
-      console.log(`Favourited Twoot #${id}`)
-    },
-    createNewTwoot() {
-      if (this.newTwootContent && this.selectedTwootType !== 'draft') {
+    addTwoot(twoot) {
         this.user.twoots.unshift({
           id: this.user.twoots.length + 1,
-          content: this.newTwootContent
+          content: twoot
         })
-        this.newTwootContent = ''
       }
-    }
-  },
-
-  mounted() {
-    this.followUser();
   }
 }
 
