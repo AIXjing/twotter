@@ -6,10 +6,13 @@
           Twotter
         </div>
       </router-link>
-      <div class="navigation__user" >
-        {{ state.user.username }}
-      </div>
+<!--      <router-link to="/user/:{{ state.user.id}}"> -->
+        <div class="navigation__user" >
+          {{ state.user.username }}
+        </div>
+<!--      </router-link>-->
     </nav>
+    <!--Add router here to use router-->
     <router-view/>
   </div>
 </template>
