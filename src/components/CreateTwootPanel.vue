@@ -25,6 +25,7 @@ import { reactive, computed } from 'vue';
 export default {
   name: "CreateTwootPanel",
   setup(props, ctx) {
+    // state
     const state = reactive({
       newTwootContent: '',
       selectedTwootType: 'instant',
@@ -33,7 +34,9 @@ export default {
         { value: 'instant', name: 'Instant Twoot'}
       ]
     })
-    const newTwootCharacterCount = computed(() => state.newTwootContent.length)
+    // computed
+    const newTwootCharacterCount = computed(() => state.newTwootContent.length) // TODO, try not using it
+    // function
     function createNewTwoot() {
       if (state.newTwootContent && state.selectedTwootType !== 'draft') {
         ctx.emit('add-twoot', state.newTwootContent);
