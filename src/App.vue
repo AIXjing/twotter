@@ -1,16 +1,16 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="user">
     <nav>
       <router-link to="/">
         <div class="navigation__logo">
           Twotter
         </div>
       </router-link>
-<!--      <router-link to="/user/:{{ state.user.id}}"> -->
-        <div class="navigation__user" >
-          {{ state.user.username }}
+      <router-link :to="{name: 'UserProfile', params: { userId: user.id } }">
+        <div class="navigation__user" v-if="user">
+          {{ user.username }}
         </div>
-<!--      </router-link>-->
+      </router-link>
     </nav>
     <!--Add router here to use router-->
     <router-view/>
@@ -18,19 +18,20 @@
 </template>
 
 <script>
-import {reactive} from 'vue';
+import {useStore} from 'vuex';
+import {computed} from 'vue';
 
 export default {
   name: 'App',
   setup() {
-    const state = reactive({
-      user: {
-        username: '_Jing'
-      }
-    })
+    const store = useStore();
+    const user = computed (() => {
+      console.log("App.vue ->" + store.state.User.user)
+      return store.state.User.user
+    });
 
     return {
-      state
+      user
     }
   }
 }
