@@ -1,7 +1,7 @@
 <template>
   <div class="user-profile">
     <div class="user-profile__user-panel">
-      <h1 class="user-profile__username">@{{ state.user.username }} [{{userId}}]</h1>
+      <h1 class="user-profile__username">@{{ state.user.username }} {{userId}}</h1>
       <div v-if="state.user.isAdmin" class="user-profile__admin-badge">
         Admin
       </div>
